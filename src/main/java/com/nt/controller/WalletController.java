@@ -4,6 +4,7 @@ import com.nt.model.Order;
 import com.nt.model.User;
 import com.nt.model.Wallet;
 import com.nt.model.WalletTransaction;
+import com.nt.service.OrderService;
 import com.nt.service.UserService;
 import com.nt.service.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ public class WalletController {
 
     @Autowired
     private UserService userService ;
+
+    @Autowired
+    private OrderService orderService ;
 
 
 
@@ -50,7 +54,7 @@ public class WalletController {
                                                          @RequestBody WalletTransaction req)
     {
         User user = userService.findUserProfileByJwt(jwt);
-        Order order = orderService.findOrderById(walletID);
+        Order order = orderService.getOrderById(walletID);
         Wallet wallet = walletService.payOrderPayment(order , user);
         return new ResponseEntity<>(wallet, HttpStatus.OK) ;
     }
